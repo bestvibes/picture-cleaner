@@ -14,6 +14,8 @@ This is built very specifically for my purposes and only tested on a Mid-2015 15
 ## Usage:
 `python3 picture_cleaner.py [folder_path]`
 
+The only external library needed is [Pillow](https://pillow.readthedocs.io/en/latest/).
+
 ![Screenshot](screenshot.png)
 
 ## Features
