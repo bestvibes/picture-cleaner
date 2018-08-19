@@ -81,6 +81,12 @@ class PictureCleaner(object):
 		print("\nLoaded images!")
 
 	def update_image(self):
+		if self.num_imgs == 0:
+			self.img_index = 0
+			self.canvas.itemconfig(self.img_view, image='')
+			self.root.title("No more images!")
+			return
+
 		if (self.img_index == -1):
 			self.img_index = self.num_imgs - 1
 		elif (self.img_index >= self.num_imgs):
@@ -91,7 +97,6 @@ class PictureCleaner(object):
 
 		filename = os.path.basename(self.img_path_list[self.img_index])
 		self.root.title(filename)
-		return
 
 	def previous_image(self, event=None):
 		self.img_index -= 1
@@ -102,15 +107,20 @@ class PictureCleaner(object):
 		self.update_image()
 
 	def preview_current_image(self, event=None):
-		if sys.platform == 'darwin':
-			Popen(["qlmanage", "-p", self.img_path_list[self.img_index]], stdout=DEVNULL, stderr=DEVNULL)
-		else:
-			print("Preview only supported on OS X for now!")
+		if self.num_imgs > 0:
+			if sys.platform == 'darwin':
+				Popen(["qlmanage", "-p", self.img_path_list[self.img_index]], stdout=DEVNULL, stderr=DEVNULL)
+			else:
+				print("Preview only supported on OS X for now!")
 
 	def remove_raw(self, event=None):
 		self.mark_current_image_bad(exts=['ARW'])
 
 	def mark_current_image_bad(self, event=None, exts=None):
+		if self.num_imgs == 0:
+			print("No more images!")
+			return
+
 		if not exts:
 			exts = self.exts
 
@@ -126,6 +136,10 @@ class PictureCleaner(object):
 		self.hide_current_image()
 
 	def hide_current_image(self, event=None):
+		if self.num_imgs == 0:
+			print("No more images!")
+			return
+
 		self.bad_img_list.append(self.img_list.pop(self.img_index))
 		self.bad_img_path_list.append(self.img_path_list.pop(self.img_index))
 		self.num_imgs -= 1
