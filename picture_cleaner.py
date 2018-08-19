@@ -36,6 +36,8 @@ class PictureCleaner(object):
 
 		self.img_index = 0
 
+		img_path_list.sort()
+
 		self.num_imgs = len(img_path_list)
 		self.img_path_list = img_path_list
 		self.img_list = []
